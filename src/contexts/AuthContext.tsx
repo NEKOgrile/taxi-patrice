@@ -69,17 +69,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
 
     if (data.user) {
-      // Use upsert to avoid conflicts - trigger will create base row
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .upsert({
-          id: data.user.id,
-          full_name: fullName,
-          phone: phone,
-          is_admin: false,
-        }, { onConflict: 'id' });
+      // Wait a bit for user to be created in auth schema
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Try to insert profile with retry logic
+      let retries = 3;
+      while (retries > 0) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: data.user.id,
+            full_name: fullName,
+            phone: phone,
+            is_admin: false,
+          });
 
-      if (profileError) throw profileError;
+        if (!profileError) break;
+        
+        retries--;
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        } else {
+          throw profileError;
+        }
+      }
     }
   };
 
