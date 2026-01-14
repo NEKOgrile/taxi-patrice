@@ -61,28 +61,58 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, fullName: string, phone: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/taxi-patrice/booking`,
+    try {
+      console.log('🔵 Signup started:', email);
+      
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/taxi-patrice/booking`,
+        }
+      });
+
+      console.log('🔵 Signup response:', { data, error });
+
+      if (error) {
+        console.error('❌ Signup error:', error);
+        throw error;
       }
-    });
 
-    if (error) throw error;
+      if (data.user) {
+        console.log('🔵 User created in auth:', data.user.id);
+        
+        // Wait for user to be available in the database
+        for (let i = 0; i < 5; i++) {
+          console.log(`🔵 Attempt ${i + 1}/5 to insert profile...`);
+          
+          const { data: insertData, error: profileError } = await supabase
+            .from('profiles')
+            .insert({
+              id: data.user.id,
+              full_name: fullName,
+              phone: phone,
+              is_admin: false,
+            });
 
-    if (data.user) {
-      // Insert profile for the new user
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: data.user.id,
-          full_name: fullName,
-          phone: phone,
-          is_admin: false,
-        });
+          if (!profileError) {
+            console.log('✅ Profile created successfully:', insertData);
+            return;
+          }
 
-      if (profileError) throw profileError;
+          console.error(`❌ Attempt ${i + 1} failed:`, profileError);
+          
+          if (i < 4) {
+            console.log(`🔵 Waiting 1.5s before retry...`);
+            await new Promise(resolve => setTimeout(resolve, 1500));
+          }
+        }
+
+        throw new Error('Failed to create profile after 5 attempts');
+      }
+    } catch (err) {
+      console.error('❌ Signup process failed:', err);
+      throw err;
     }
   };
 
