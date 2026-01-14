@@ -69,14 +69,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
 
     if (data.user) {
+      // Use upsert to avoid conflicts - trigger will create base row
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert({
+        .upsert({
           id: data.user.id,
           full_name: fullName,
           phone: phone,
           is_admin: false,
-        });
+        }, { onConflict: 'id' });
 
       if (profileError) throw profileError;
     }
