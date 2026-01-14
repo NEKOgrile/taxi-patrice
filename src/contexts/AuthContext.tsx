@@ -80,35 +80,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
-        console.log('🔵 User created in auth:', data.user.id);
-        
-        // Wait for user to be available in the database
-        for (let i = 0; i < 5; i++) {
-          console.log(`🔵 Attempt ${i + 1}/5 to insert profile...`);
-          
-          const { data: insertData, error: profileError } = await supabase
-            .from('profiles')
-            .insert({
-              id: data.user.id,
-              full_name: fullName,
-              phone: phone,
-              is_admin: false,
-            });
-
-          if (!profileError) {
-            console.log('✅ Profile created successfully:', insertData);
-            return;
-          }
-
-          console.error(`❌ Attempt ${i + 1} failed:`, profileError);
-          
-          if (i < 4) {
-            console.log(`🔵 Waiting 1.5s before retry...`);
-            await new Promise(resolve => setTimeout(resolve, 1500));
-          }
-        }
-
-        throw new Error('Failed to create profile after 5 attempts');
+        console.log('✅ User created successfully:', data.user.id);
+        console.log('🔵 Trigger will create profile automatically');
       }
     } catch (err) {
       console.error('❌ Signup process failed:', err);
