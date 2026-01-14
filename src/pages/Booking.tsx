@@ -227,23 +227,33 @@ export default function Booking() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <nav className="bg-slate-900/50 backdrop-blur-sm border-b border-slate-700">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDE0YzMuMzEgMCA2IDIuNjkgNiA2cy0yLjY5IDYtNiA2LTYtMi42OS02LTYgMi42OS02IDYtNk0yMCA0MGMzLjMxIDAgNiAyLjY5IDYgNnMtMi42OSA2LTYgNi02LTIuNjktNi02IDIuNjktNiA2LTZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+
+      <div className="absolute top-20 left-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl"></div>
+
+      <nav className="relative bg-slate-900/70 backdrop-blur-md border-b border-amber-500/20 shadow-lg shadow-amber-500/5">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <Car className="w-8 h-8 text-blue-400" />
-              <h1 className="text-2xl font-bold text-white">Taxi Patrice</h1>
+            <div className="flex items-center gap-3 group">
+              <div className="relative">
+                <div className="absolute inset-0 bg-amber-500 blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                <Car className="w-9 h-9 text-amber-400 relative transform group-hover:scale-110 transition-transform" />
+              </div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-transparent bg-clip-text">
+                Taxi Patrice
+              </h1>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-white">
+              <div className="flex items-center gap-2 text-amber-300 bg-slate-800/50 px-4 py-2 rounded-xl border border-amber-500/20">
                 <User className="w-5 h-5" />
-                <span>{profile?.full_name}</span>
+                <span className="font-semibold">{profile?.full_name}</span>
               </div>
               {profile?.is_admin && (
                 <button
                   onClick={() => navigate('/admin')}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center gap-2"
+                  className="group px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold rounded-xl transition-all transform hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/50 flex items-center gap-2"
                 >
                   <LayoutDashboard className="w-4 h-4" />
                   Admin
@@ -251,7 +261,7 @@ export default function Booking() {
               )}
               <button
                 onClick={handleSignOut}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-slate-800/50 hover:bg-slate-700 text-white font-semibold rounded-xl transition-all flex items-center gap-2 border border-slate-600/50"
               >
                 <LogOut className="w-4 h-4" />
                 Déconnexion
@@ -261,12 +271,15 @@ export default function Booking() {
         </div>
       </nav>
 
-      <main className="container mx-auto px-6 py-8">
-        <h2 className="text-3xl font-bold text-white mb-8">Réserver une Course</h2>
+      <main className="container mx-auto px-6 py-8 relative">
+        <div className="mb-8">
+          <h2 className="text-4xl font-black text-white mb-2">Réserver une Course</h2>
+          <p className="text-slate-400 text-lg">Sélectionnez votre trajet sur la carte et choisissez vos options</p>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           <div>
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
+            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-md rounded-2xl border border-amber-500/20 overflow-hidden shadow-2xl shadow-amber-500/10">
               <MapContainer
                 center={defaultCenter}
                 zoom={13}
@@ -283,32 +296,32 @@ export default function Booking() {
               </MapContainer>
             </div>
 
-            <div className="mt-4 bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-4">
-              <div className="flex items-center gap-2 text-slate-300 mb-2">
+            <div className="mt-4 bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-md rounded-2xl border border-amber-500/20 p-6 shadow-xl shadow-amber-500/10">
+              <div className="flex items-center gap-2 text-slate-300 mb-3 bg-green-500/10 p-3 rounded-xl border border-green-500/20">
                 <MapPin className="w-5 h-5 text-green-400" />
-                <span className="font-medium">Départ:</span>
-                <span>{startPoint ? `${startPoint.lat.toFixed(4)}, ${startPoint.lng.toFixed(4)}` : 'Cliquez sur la carte'}</span>
+                <span className="font-bold text-green-300">Départ:</span>
+                <span className="text-sm">{startPoint ? `${startPoint.lat.toFixed(4)}, ${startPoint.lng.toFixed(4)}` : 'Cliquez sur la carte'}</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-300 mb-4">
+              <div className="flex items-center gap-2 text-slate-300 mb-4 bg-red-500/10 p-3 rounded-xl border border-red-500/20">
                 <MapPin className="w-5 h-5 text-red-400" />
-                <span className="font-medium">Arrivée:</span>
-                <span>{endPoint ? `${endPoint.lat.toFixed(4)}, ${endPoint.lng.toFixed(4)}` : 'Cliquez sur la carte'}</span>
+                <span className="font-bold text-red-300">Arrivée:</span>
+                <span className="text-sm">{endPoint ? `${endPoint.lat.toFixed(4)}, ${endPoint.lng.toFixed(4)}` : 'Cliquez sur la carte'}</span>
               </div>
               {route && (
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-700">
-                  <div>
-                    <div className="text-slate-400 text-sm">Distance</div>
-                    <div className="text-white text-lg font-semibold">{route.distance.toFixed(2)} km</div>
+                <div className="grid grid-cols-2 gap-4 pt-4 mb-4 border-t border-amber-500/20">
+                  <div className="bg-slate-800/50 p-4 rounded-xl border border-amber-500/10">
+                    <div className="text-amber-400 text-sm font-semibold">Distance</div>
+                    <div className="text-white text-2xl font-black">{route.distance.toFixed(2)} km</div>
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-sm">Temps estimé</div>
-                    <div className="text-white text-lg font-semibold">{Math.round(route.duration)} min</div>
+                  <div className="bg-slate-800/50 p-4 rounded-xl border border-amber-500/10">
+                    <div className="text-amber-400 text-sm font-semibold">Temps estimé</div>
+                    <div className="text-white text-2xl font-black">{Math.round(route.duration)} min</div>
                   </div>
                 </div>
               )}
               <button
                 onClick={handleReset}
-                className="mt-4 w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+                className="w-full px-4 py-3 bg-slate-800/80 hover:bg-slate-700 text-white font-bold rounded-xl transition-all border border-slate-600/50 hover:border-amber-500/30"
               >
                 Réinitialiser
               </button>
@@ -316,28 +329,31 @@ export default function Booking() {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
-              <h3 className="text-xl font-semibold text-white mb-4">Choisissez votre taxi</h3>
+            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-md rounded-2xl border border-amber-500/20 p-6 shadow-xl shadow-amber-500/10">
+              <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
+                <Car className="w-6 h-6 text-amber-400" />
+                Choisissez votre taxi
+              </h3>
               <div className="space-y-3">
                 {taxis.map((taxi) => (
                   <button
                     key={taxi.id}
                     onClick={() => setSelectedTaxi(taxi)}
-                    className={`w-full p-4 rounded-lg border-2 transition-all ${
+                    className={`group w-full p-5 rounded-xl border-2 transition-all transform hover:scale-105 ${
                       selectedTaxi?.id === taxi.id
-                        ? 'border-blue-500 bg-blue-900/30'
-                        : 'border-slate-600 hover:border-slate-500'
+                        ? 'border-amber-500 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 shadow-lg shadow-amber-500/30'
+                        : 'border-slate-600/50 bg-slate-800/50 hover:border-amber-500/30'
                     }`}
                   >
                     <div className="flex justify-between items-center">
                       <div className="text-left">
-                        <div className="text-white font-semibold">{taxi.name}</div>
+                        <div className="text-white font-bold text-lg">{taxi.name}</div>
                         <div className="text-slate-400 text-sm">{taxi.vehicle_type}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-blue-400 font-semibold">{taxi.price_per_km}€/km</div>
+                        <div className="text-amber-400 font-black text-lg">{taxi.price_per_km}€/km</div>
                         {taxi.multiplier !== 1 && (
-                          <div className="text-slate-400 text-xs">x{taxi.multiplier}</div>
+                          <div className="text-amber-300 text-xs font-semibold">x{taxi.multiplier}</div>
                         )}
                       </div>
                     </div>
@@ -346,12 +362,15 @@ export default function Booking() {
               </div>
             </div>
 
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
-              <h3 className="text-xl font-semibold text-white mb-4">Date et Heure</h3>
+            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-md rounded-2xl border border-amber-500/20 p-6 shadow-xl shadow-amber-500/10">
+              <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
+                <Calendar className="w-6 h-6 text-amber-400" />
+                Date et Heure
+              </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="flex items-center gap-2 text-slate-300 mb-2">
-                    <Calendar className="w-4 h-4" />
+                  <label className="flex items-center gap-2 text-slate-300 mb-3 font-bold">
+                    <Calendar className="w-4 h-4 text-amber-400" />
                     Date
                   </label>
                   <select
@@ -360,7 +379,7 @@ export default function Booking() {
                       setSelectedDate(e.target.value);
                       setSelectedTime('');
                     }}
-                    className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-4 py-3 bg-slate-900/80 border border-amber-500/20 rounded-xl text-white font-semibold focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all"
                   >
                     <option value="">Sélectionnez une date</option>
                     {uniqueDates.map((date) => (
@@ -378,14 +397,14 @@ export default function Booking() {
 
                 {selectedDate && (
                   <div>
-                    <label className="flex items-center gap-2 text-slate-300 mb-2">
-                      <Clock className="w-4 h-4" />
+                    <label className="flex items-center gap-2 text-slate-300 mb-3 font-bold">
+                      <Clock className="w-4 h-4 text-amber-400" />
                       Heure
                     </label>
                     <select
                       value={selectedTime}
                       onChange={(e) => setSelectedTime(e.target.value)}
-                      className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-4 py-3 bg-slate-900/80 border border-amber-500/20 rounded-xl text-white font-semibold focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all"
                     >
                       <option value="">Sélectionnez une heure</option>
                       {availableTimesForDate.map((avail) => (
@@ -399,52 +418,55 @@ export default function Booking() {
               </div>
             </div>
 
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
-              <h3 className="text-xl font-semibold text-white mb-4">Récapitulatif</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between text-slate-300">
-                  <span>Distance</span>
-                  <span className="font-semibold">{route ? `${route.distance.toFixed(2)} km` : '-'}</span>
+            <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-md rounded-2xl border border-amber-500/20 p-6 shadow-xl shadow-amber-500/10">
+              <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
+                <DollarSign className="w-6 h-6 text-amber-400" />
+                Récapitulatif
+              </h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-slate-300 bg-slate-800/50 p-3 rounded-xl">
+                  <span className="font-semibold">Distance</span>
+                  <span className="font-black text-white">{route ? `${route.distance.toFixed(2)} km` : '-'}</span>
                 </div>
-                <div className="flex justify-between text-slate-300">
-                  <span>Temps estimé</span>
-                  <span className="font-semibold">{route ? `${Math.round(route.duration)} min` : '-'}</span>
+                <div className="flex justify-between items-center text-slate-300 bg-slate-800/50 p-3 rounded-xl">
+                  <span className="font-semibold">Temps estimé</span>
+                  <span className="font-black text-white">{route ? `${Math.round(route.duration)} min` : '-'}</span>
                 </div>
-                <div className="flex justify-between text-slate-300">
-                  <span>Taxi</span>
-                  <span className="font-semibold">{selectedTaxi?.name || '-'}</span>
+                <div className="flex justify-between items-center text-slate-300 bg-slate-800/50 p-3 rounded-xl">
+                  <span className="font-semibold">Taxi</span>
+                  <span className="font-black text-white">{selectedTaxi?.name || '-'}</span>
                 </div>
-                <div className="flex justify-between text-slate-300">
-                  <span>Date</span>
-                  <span className="font-semibold">
+                <div className="flex justify-between items-center text-slate-300 bg-slate-800/50 p-3 rounded-xl">
+                  <span className="font-semibold">Date</span>
+                  <span className="font-black text-white">
                     {selectedDate
                       ? new Date(selectedDate).toLocaleDateString('fr-FR')
                       : '-'}
                   </span>
                 </div>
-                <div className="flex justify-between text-slate-300">
-                  <span>Heure</span>
-                  <span className="font-semibold">{selectedTime || '-'}</span>
+                <div className="flex justify-between items-center text-slate-300 bg-slate-800/50 p-3 rounded-xl">
+                  <span className="font-semibold">Heure</span>
+                  <span className="font-black text-white">{selectedTime || '-'}</span>
                 </div>
-                <div className="pt-3 border-t border-slate-700 flex justify-between items-center">
-                  <span className="text-white font-semibold text-lg flex items-center gap-2">
-                    <DollarSign className="w-5 h-5" />
+                <div className="pt-4 mt-4 border-t-2 border-amber-500/30 flex justify-between items-center bg-gradient-to-r from-amber-500/10 to-yellow-500/10 p-4 rounded-xl">
+                  <span className="text-white font-black text-xl flex items-center gap-2">
+                    <DollarSign className="w-6 h-6 text-amber-400" />
                     Prix Total
                   </span>
-                  <span className="text-blue-400 font-bold text-2xl">
+                  <span className="text-amber-400 font-black text-3xl">
                     {route && selectedTaxi ? `${calculatePrice()}€` : '-'}
                   </span>
                 </div>
               </div>
 
               {error && (
-                <div className="mt-4 bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
+                <div className="mt-6 bg-red-900/50 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl backdrop-blur-sm font-semibold">
                   {error}
                 </div>
               )}
 
               {success && (
-                <div className="mt-4 bg-green-900/50 border border-green-700 text-green-200 px-4 py-3 rounded-lg">
+                <div className="mt-6 bg-green-900/50 border border-green-500/50 text-green-200 px-4 py-3 rounded-xl backdrop-blur-sm font-semibold">
                   {success}
                 </div>
               )}
@@ -452,9 +474,12 @@ export default function Booking() {
               <button
                 onClick={handleConfirmBooking}
                 disabled={loading || !startPoint || !endPoint || !selectedTaxi || !selectedDate || !selectedTime}
-                className="mt-6 w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
+                className="group mt-6 w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 disabled:from-slate-700 disabled:to-slate-700 disabled:cursor-not-allowed text-slate-900 disabled:text-slate-500 font-black rounded-xl transition-all transform hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/50 text-lg relative overflow-hidden"
               >
-                {loading ? 'Réservation en cours...' : 'Confirmer la Réservation'}
+                <span className="relative z-10">
+                  {loading ? 'Réservation en cours...' : 'Confirmer la Réservation'}
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
               </button>
             </div>
           </div>
