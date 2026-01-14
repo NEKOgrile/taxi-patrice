@@ -43,7 +43,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/taxi-patrice/">
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
