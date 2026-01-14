@@ -64,6 +64,8 @@ function App() {
               </AdminRoute>
             }
           />
+          {/* Catch-all route for 404 - redirect to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
